@@ -4,27 +4,40 @@ using System.Collections;
 public class Player : MonoBehaviour {
 
     public float speed = 1.0f;
+    public bool shooting = false;
+
+    private Rigidbody2D body;
+
+    void Start()
+    {
+        body = gameObject.GetComponent<Rigidbody2D>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
-        Vector3 pos = transform.position;
+        Vector3 newVelocity = Vector3.zero;
 	    if (Input.GetKey(KeyCode.W))
         {
-            pos.y += speed * Time.deltaTime;
+            newVelocity.y += speed;
         }
         if(Input.GetKey(KeyCode.A))
         {
-            pos.x -= speed * Time.deltaTime;
+            newVelocity.x -= speed;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            pos.y -= speed * Time.deltaTime;
+            newVelocity.y -= speed;
         }
         if (Input.GetKey(KeyCode.D))
         {
-            pos.x += speed * Time.deltaTime;
+            newVelocity.x += speed;
         }
 
-        transform.position = pos;
+        body.velocity = newVelocity;
+
+        Vector3 diff = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        diff.Normalize();
+        float rot_z = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0f, 0f, rot_z - 90);
 	}
 }
