@@ -4,7 +4,7 @@ using System.Collections;
 public class bullet : MonoBehaviour {
 
     public float speed = 1.0f;
-    public float dammage = 1.0f;
+    public float damage = 1.0f;
     public float duration = 1.0f;
     public string target;
 
@@ -18,7 +18,7 @@ public class bullet : MonoBehaviour {
 
     void OnCollisionEnter2D (Collision2D coll)
     {
-        if (coll.transform.tag == target) { coll.transform.SendMessage("Dammage_Take", dammage); }
+        if (coll.transform.tag == target) { coll.transform.SendMessage("TakeDamage", damage); Object.Destroy(gameObject); }
         else if (coll.transform.tag == "Environment") { Object.Destroy(gameObject); }
     }
 
