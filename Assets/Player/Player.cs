@@ -4,17 +4,24 @@ using System.Collections;
 public class Player : MonoBehaviour {
 
     public float speed = 1.0f;
+    public float fireRate = 1.0f;
     public bool shooting = false;
+    public GameObject bulletPrefab;
 
     private Rigidbody2D body;
     private Vector2 direction;
+    private Animator animator;
+    private float bulletDelay;
+    private float timer = 0;
 
     void Start()
     {
         body = gameObject.GetComponent<Rigidbody2D>();
+        animator = gameObject.GetComponent<Animator>();
+        animator.SetFloat("Fire Rate", fireRate);
+        bulletDelay = 1 / fireRate;
     }
 	
-	// Update is called once per frame
 	void Update () {
         direction = Vector2.zero;
         shooting = false;
@@ -69,5 +76,17 @@ public class Player : MonoBehaviour {
 
         float rot_z = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0f, 0f, rot_z - 90);
+
+        animator.SetBool("Shooting", shooting);
+
+        if (shooting && timer <= 0)
+        {
+            Instantiate(bulletPrefab, transform.position, transform.rotation);
+            timer = bulletDelay;
+        } else
+        {
+            timer -= Time.deltaTime;
+        }
+        
 	}
 }
