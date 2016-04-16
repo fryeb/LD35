@@ -1,14 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Snake : MonoBehaviour
+public class Snake : Boss
 {
-    public float health;
 
-    void TakeDamage(float damage)
+    void Update()
     {
-        health -= damage;
-        if (health <= 0)
-            Destroy(gameObject);
+
     }
+
 }
