@@ -18,6 +18,7 @@ public class Player : MonoBehaviour {
 	void Update () {
         direction = Vector2.zero;
         shooting = false;
+        Vector3 newVelocity = Vector3.zero;
 
         if (Input.GetKey(KeyCode.UpArrow))
         {
@@ -41,9 +42,6 @@ public class Player : MonoBehaviour {
             direction.x = 1.0f;
         }
 
-        Vector3 newVelocity = Vector3.zero;
-        if (!shooting) direction = Vector2.up;
-
 	    if (Input.GetKey(KeyCode.W))
         {
             newVelocity.y += speed;
@@ -64,6 +62,8 @@ public class Player : MonoBehaviour {
             newVelocity.x += speed;
             if (!shooting) direction.x += 1.0f;
         }
+
+        if (direction == Vector2.zero) direction = Vector2.up;
 
         body.velocity = newVelocity;
 
