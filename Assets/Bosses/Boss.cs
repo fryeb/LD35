@@ -5,12 +5,19 @@ public class Boss : MonoBehaviour
 {
     public float health;
     public float maxHealth;
+    public string target;
+    public float turnSpeed;
+    public float fireSpeed;
 
-    public float bulletPrefab;
+    public Transform bulletPrefab;
 
-    void Update()
+    protected Animator anim;
+    protected Quaternion aim;
+    protected float timer = 0;
+
+    void Start()
     {
-
+        anim = gameObject.GetComponent<Animator>();
     }
 
     void TakeDamage(float damage)
@@ -18,5 +25,6 @@ public class Boss : MonoBehaviour
         health -= damage;
         if (health <= 0)
             Destroy(gameObject);
+        anim.SetTrigger("Hit");
     }
 }
