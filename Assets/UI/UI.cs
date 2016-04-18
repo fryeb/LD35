@@ -11,7 +11,13 @@ public class UI : MonoBehaviour {
     private static GameObject DeathUI;          //UIState = 3;
     private static GameObject DialogueEndUI;    //UIState = 4;
 
-    public static void SetState(int state)
+    private static GameObject PlayerBarMid;
+    private static GameObject EnemyBarMid;
+
+    private static Boss boss;
+    private static Player player;
+
+    public void SetState(int state)
     {
         switch (state)
         {
@@ -21,6 +27,7 @@ public class UI : MonoBehaviour {
                 PauseUI.SetActive(false);
                 DeathUI.SetActive(false);
                 DialogueEndUI.SetActive(false);
+                Time.timeScale = 0f;
                 break;
             case 1:
                 DialogueStartUI.SetActive(false);
@@ -28,6 +35,7 @@ public class UI : MonoBehaviour {
                 PauseUI.SetActive(false);
                 DeathUI.SetActive(false);
                 DialogueEndUI.SetActive(false);
+                Time.timeScale = 1f;
                 break;
             case 2:
                 DialogueStartUI.SetActive(false);
@@ -35,6 +43,7 @@ public class UI : MonoBehaviour {
                 PauseUI.SetActive(true);
                 DeathUI.SetActive(false);
                 DialogueEndUI.SetActive(false);
+                Time.timeScale = 0f;
                 break;
             case 3:
                 DialogueStartUI.SetActive(false);
@@ -42,6 +51,7 @@ public class UI : MonoBehaviour {
                 PauseUI.SetActive(false);
                 DeathUI.SetActive(true);
                 DialogueEndUI.SetActive(false);
+                Time.timeScale = 0f;
                 break;
             case 4:
                 DialogueStartUI.SetActive(false);
@@ -49,8 +59,10 @@ public class UI : MonoBehaviour {
                 PauseUI.SetActive(false);
                 DeathUI.SetActive(false);
                 DialogueEndUI.SetActive(true);
+                Time.timeScale = 0f;
                 break;
         }
+        UIState = state;
     }
 
     void Start()
@@ -61,10 +73,23 @@ public class UI : MonoBehaviour {
         DeathUI = GameObject.Find("Death");
         DialogueEndUI = GameObject.Find("DialogueEnd");
         SetState(0);
+
+        boss = GameObject.Find("Boss").GetComponent<Boss>();
+        player = GameObject.Find("Player").GetComponent<Player>();
+        PlayerBarMid = GameObject.Find("PlayerBarMid");
+        EnemyBarMid = GameObject.Find("EnemyBarMid");
     }
 
     void Update()
     {
-        
+        switch (UIState)
+        {
+            case 0:
+                break;
+            case 1:
+                PlayerBarMid.transform.localScale = new Vector3(player.health / player.maxHealth, PlayerBarMid.transform.localScale.y, PlayerBarMid.transform.localScale.z);
+                break;
+
+        }
     }
 }
