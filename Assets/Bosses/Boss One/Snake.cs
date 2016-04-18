@@ -16,6 +16,9 @@ public class Snake : Boss
             Physics2D.IgnoreCollision(bullet.GetComponent<Collider2D>(), GetComponent<Collider2D>());
             timer = 1 / fireSpeed;
         }
-        if (timer > 0) timer -= Time.deltaTime;
+        else
+        {
+            timer -= Time.deltaTime;
+        }
     }
 }
